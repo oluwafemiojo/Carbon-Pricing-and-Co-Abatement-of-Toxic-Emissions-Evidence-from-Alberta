@@ -1,0 +1,507 @@
+\documentclass[aspectratio=169,12pt]{beamer}
+
+%% ── Fonts & encoding ──────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usefonttheme{professionalfonts}
+\renewcommand{\familydefault}{\sfdefault}
+
+%% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{microtype}
+
+%% ── Colour palette ────────────────────────────────────────────────────────────
+\definecolor{Navy}{HTML}{1B2A4A}
+\definecolor{Blue}{HTML}{3B6EA8}
+\definecolor{LightBlue}{HTML}{DCE9F5}
+\definecolor{Teal}{HTML}{2C6E6B}
+\definecolor{Smoke}{HTML}{F4F6F9}
+\definecolor{MidGray}{HTML}{888888}
+\definecolor{DarkText}{HTML}{1A1A1A}
+\definecolor{Red}{HTML}{C0392B}
+\definecolor{Green}{HTML}{1A7A4A}
+
+%% ── Beamer theme ──────────────────────────────────────────────────────────────
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=DarkText}
+\setbeamerfont{normal text}{size=\normalsize}
+
+%% Footline: page number right + swipe hint left
+\setbeamertemplate{footline}{%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.5ex,dp=1.5ex]{footline}%
+    \hspace{1.5em}%
+    \textcolor{MidGray}{\scriptsize Swipe \(\rightarrow\)}%
+    \hfill%
+    \textcolor{MidGray}{\scriptsize\insertframenumber\ /\ \inserttotalframenumber}%
+    \hspace{1.5em}%
+  \end{beamercolorbox}%
+}
+
+%% No header
+\setbeamertemplate{headline}{}
+\setbeamertemplate{frametitle}{}   % suppress default — we draw our own
+
+%% ── Custom commands ───────────────────────────────────────────────────────────
+
+%% Section badge: coloured box with number
+\newcommand{\badge}[2][Navy]{%
+  \colorbox{#1}{\color{white}\,\textbf{\small #2}\,}%
+}
+
+%% Slide title (large, bold, left-aligned, navy)
+\newcommand{\slidetitle}[1]{%
+  \vspace{0.6em}%
+  {\color{Navy}\LARGE\textbf{#1}}%
+  \vspace{0.3em}\par%
+  \textcolor{Blue}{\rule{\linewidth}{1.2pt}}\par%
+  \vspace{0.4em}%
+}
+
+%% Key result box
+\tcbset{
+  resultbox/.style={
+    colback=LightBlue, colframe=Blue, boxrule=0.8pt,
+    arc=4pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+    fontupper=\small
+  },
+  statbox/.style={
+    colback=Smoke, colframe=Navy, boxrule=0.6pt,
+    arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt,
+    fontupper=\small
+  }
+}
+
+%% Inline bold highlight
+\newcommand{\hi}[1]{\textcolor{Navy}{\textbf{#1}}}
+\newcommand{\red}[1]{\textcolor{Red}{\textbf{#1}}}
+\newcommand{\grn}[1]{\textcolor{Green}{\textbf{#1}}}
+
+%% ── Title information ─────────────────────────────────────────────────────────
+\title{}
+\date{}
+\author{}
+
+%% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+%% ══════════════════════════════════════════════════════════════════════════════
+
+%% ── SLIDE 1: Title ────────────────────────────────────────────────────────────
+\begin{frame}[plain]
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[Navy] (current page.north west) rectangle
+              ([yshift=-0.38\paperheight]current page.north east);
+\end{tikzpicture}
+
+\vspace{1.8em}
+{\color{white}\Large\textbf{Carbon Pricing and\\[4pt]
+Co-Abatement of Toxic Emissions}}\par
+\vspace{0.5em}
+{\color{LightBlue}\normalsize Evidence from Alberta's SGER/TIER Regulation}\par
+
+\vspace{2.2em}
+{\color{DarkText}\normalsize Oluwafemi Michael Ojo}\par
+{\color{MidGray}\small University of British Columbia\quad·\quad May 2026}\par
+
+\vfill
+\hfill\textcolor{MidGray}{\scriptsize Swipe \(\rightarrow\)}
+\hspace{1.5em}
+\end{frame}
+
+%% ── SLIDE 2: Outline ──────────────────────────────────────────────────────────
+\begin{frame}
+\slidetitle{Outline}
+
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{itemize}\setlength\itemsep{0.55em}
+  \item[\badge{01}] The Question
+  \item[\badge{02}] US Benchmark
+  \item[\badge{03}] Alberta's Policy
+  \item[\badge{04}] Data
+\end{itemize}
+\column{0.48\textwidth}
+\begin{itemize}\setlength\itemsep{0.55em}
+  \item[\badge{05}] Empirical Strategy
+  \item[\badge{06}] Results
+  \item[\badge{07}] Event Study
+  \item[\badge{08}] Takeaway
+\end{itemize}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 3: The Question ─────────────────────────────────────────────────────
+\begin{frame}
+\badge{01}\quad{\color{Navy}\large\textbf{The Question}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.6em}
+
+Carbon prices are designed to cut CO$_2$ — but do they also \hi{reduce
+toxic co-pollutants}?
+
+\vspace{0.8em}
+
+\begin{tcolorbox}[resultbox]
+\textbf{Mechanism:} A carbon price raises the cost of fossil-fuel combustion.
+Firms respond by cutting output, switching fuels, or adopting cleaner technology.
+Each channel also reduces \emph{co-emitted} toxic substances — mercury,
+arsenic, lead, VOCs.
+\end{tcolorbox}
+
+\vspace{0.8em}
+
+\begin{columns}[T]
+\column{0.46\textwidth}
+\textcolor{MidGray}{\small\textit{US evidence (cap-and-trade)}}\\[3pt]
+Pham \& Roach (2024): RGGI cut\\
+coal-utility toxic releases by \hi{62\%}
+
+\column{0.46\textwidth}
+\textcolor{MidGray}{\small\textit{Canadian question (intensity standard)}}\\[3pt]
+Does Alberta's SGER/TIER produce\\
+\hi{comparable co-abatement}?
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 4: US Benchmark ─────────────────────────────────────────────────────
+\begin{frame}
+\badge{02}\quad{\color{Navy}\large\textbf{US Benchmark: Pham \& Roach (2024)}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.5em}
+
+\begin{columns}[T]
+\column{0.54\textwidth}
+\textbf{Setting}\quad RGGI cap-and-trade, 11 NE states\\
+\textbf{Data}\quad\; US Toxics Release Inventory (TRI)\\
+\textbf{Sample}\quad Coal electric utilities, 2000--2019\\
+\textbf{N}\quad\quad\quad 4,831 facility-years, 243 facilities
+
+\vspace{0.5em}
+{\small\textbf{Design:} Two-period DiD\\
+$\bullet$ Facility, state, and year FEs\\
+$\bullet$ SE clustered by facility\\
+$\bullet$ Reference: non-RGGI states}
+
+\column{0.42\textwidth}
+\begin{tcolorbox}[resultbox, title={\small Results}]
+\begin{tabular}{lc}
+Phase 1 (2009) & \hi{$-45.4\%$} \\
+Phase 2 (2014) & \hi{$-30.8\%$} \\
+\midrule
+\textbf{Combined} & \hi{$-62.2\%$} \\
+\end{tabular}
+\end{tcolorbox}
+
+\vspace{0.4em}
+{\small Mechanism: hard cap forces\\
+output cuts → less coal ash,\\
+fewer stack emissions}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 5: Alberta's Policy ─────────────────────────────────────────────────
+\begin{frame}
+\badge{03}\quad{\color{Navy}\large\textbf{Alberta's Carbon Policy}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.4em}
+
+\begin{columns}[T]
+\column{0.56\textwidth}
+\begin{tabular}{llr}
+\toprule
+\small Period & \small Regulation & \small Rate (CAD/t) \\
+\midrule
+2007--2017 & SGER & \$15--30 \\
+2018--2019 & CCIR & \$20--30 \\
+2020--2022 & \textbf{TIER} & \textbf{\$30--50} \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.7em}
+{\small Coverage: facilities $\geq$100,000\,t CO$_2$e/yr}
+
+\column{0.40\textwidth}
+\begin{tcolorbox}[statbox,title={\small RGGI vs.\ SGER/TIER}]
+\textbf{RGGI:} hard cap on total\\
+tonnes — quantity instrument
+
+\vspace{4pt}
+\textbf{SGER/TIER:} intensity\\
+standard — firms can grow\\
+output if intensity falls
+\end{tcolorbox}
+
+\vspace{0.4em}
+{\small \textcolor{Red}{Key:} intensity standard\\
+weakens production-cut\\
+incentive → expect smaller\\
+co-abatement}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 6: Data ─────────────────────────────────────────────────────────────
+\begin{frame}
+\badge{04}\quad{\color{Navy}\large\textbf{Data}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.4em}
+
+\begin{columns}[T]
+\column{0.54\textwidth}
+\textbf{Source}\quad National Pollutant Release Inventory\\
+\quad\quad\quad\quad\;\; (NPRI), ECCC, 2000--2022
+
+\vspace{0.5em}
+\textbf{Industry filter}\quad 5 energy NAICS codes:\\
+{\small 211110/211113/211114 — oil \& gas extraction\\
+221112 — fossil-fuel power generation\\
+324110 — petroleum refineries}
+
+\vspace{0.5em}
+\textbf{Excluded}\quad British Columbia (carbon tax 2008\\
+\quad\quad\quad\quad\;\; contaminates control group)
+
+\column{0.42\textwidth}
+\begin{tcolorbox}[resultbox,title={\small Sample}]
+\begin{tabular}{lr}
+Observations & \hi{64,316} \\
+Facilities   & \hi{12,710} \\
+AB (treated) & 9,895 \\
+Control prov & 2,815 \\
+Years        & 2000--2022 \\
+\end{tabular}
+\end{tcolorbox}
+
+\vspace{0.4em}
+{\small \textbf{Outcomes:}\\
+$\mathit{lsumemission} = \log(1 + R^{\text{air}}_{it})$\\
+$\mathit{lsumreleases} = \log(1 + R^{\text{all}}_{it})$}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 7: Empirical Strategy ───────────────────────────────────────────────
+\begin{frame}
+\badge{05}\quad{\color{Navy}\large\textbf{Empirical Strategy}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.5em}
+
+\textbf{Two-way fixed effects DiD:}
+
+\begin{align*}
+y_{it} &= \beta_1\!\underbrace{(Alberta_i \times SGER_t)}_{\text{Phase 1 effect}}
+         + \beta_2\!\underbrace{(Alberta_i \times TIER_t)}_{\text{Phase 2 effect}}\\[4pt]
+       &\quad + \mathbf{X}_{it}'\boldsymbol{\gamma}
+         + \alpha_i + \delta_t + \varepsilon_{it}
+\end{align*}
+
+\vspace{0.3em}
+
+\begin{columns}[T]
+\column{0.54\textwidth}
+{\small
+$Alberta_i = 1$ if facility in Alberta\\[2pt]
+$SGER_t = \mathbf{1}[t \geq 2007]$ \quad $TIER_t = \mathbf{1}[t \geq 2020]$\\[2pt]
+$\mathbf{X}_{it}$: log GDP, fossil-fuel share, coal/gas price\\[2pt]
+$\alpha_i$: facility FE \quad $\delta_t$: year FE\\[2pt]
+SE clustered by facility
+}
+
+\column{0.42\textwidth}
+\begin{tcolorbox}[statbox,title={\small Parallel trends test}]
+Event study (ref = 2006)\\[3pt]
+Pre-trend joint Wald test:\\
+$F(3) = 1.70,\; p = 0.166$\\[3pt]
+\grn{$\checkmark$ Fail to reject — consistent}
+\end{tcolorbox}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 8: Results ──────────────────────────────────────────────────────────
+\begin{frame}
+\badge{06}\quad{\color{Navy}\large\textbf{Results: US vs.\ Canada}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.3em}
+
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{\textit{Log Air Emissions}} &
+  \multicolumn{2}{c}{\textit{Log Total Releases}} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+& \textit{US (RGGI)} & \textit{Canada (SGER/TIER)}
+& \textit{US (RGGI)} & \textit{Canada (SGER/TIER)} \\
+\midrule
+$\hat\beta_1$ (Phase 1)
+  & $-0.605^{**}$ & $-0.193^{***}$
+  & $-0.870^{***}$ & $-0.194^{***}$ \\
+  & $(0.280)$     & $(0.064)$
+  & $(0.308)$     & $(0.063)$ \\[4pt]
+$\hat\beta_2$ (Phase 2)
+  & $-0.369$      & $-0.308^{***}$
+  & $-0.949^{***}$& $-0.306^{***}$ \\
+  & $(0.308)$     & $(0.068)$
+  & $(0.398)$     & $(0.068)$ \\[6pt]
+\textit{Begin \%}  & $-45.4\%$ & $-17.5\%$ & $-56.7\%$ & $-17.6\%$ \\
+\textit{Lower \%}  & $-30.8\%$ & $-26.5\%$ & $-61.7\%$ & $-26.4\%$ \\
+\textbf{Total \%}  & \hi{$-62.2\%$} & \hi{$-39.4\%$}
+                   & \hi{$-83.4\%$} & \hi{$-39.4\%$} \\
+\bottomrule
+\end{tabular}}% end resizebox
+
+\vspace{0.2em}
+{\scriptsize SE clustered by facility. Bootstrap 95\% CI for $\hat\beta_1$: $[-0.31,\,-0.06]$;
+for $\hat\beta_2$: $[-0.42,\,-0.18]$.
+$^{**}p<0.05$, $^{***}p<0.01$.}
+\end{frame}
+
+%% ── SLIDE 9: Event Study ──────────────────────────────────────────────────────
+\begin{frame}
+\badge{07}\quad{\color{Navy}\large\textbf{Event Study: Alberta vs.\ Control Provinces}}
+\vspace{0.3em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.1em}
+
+\begin{columns}[T]
+\column{0.64\textwidth}
+\includegraphics[width=\linewidth,trim=0 20 0 20,clip]%
+  {../output/figures/fig_canada_event_study.png}
+
+\column{0.33\textwidth}
+\vspace{0.8em}
+\begin{tcolorbox}[statbox]
+{\small
+\textbf{2003--2005:} flat near zero\\
+Pre-trends hold \grn{$\checkmark$}
+
+\vspace{4pt}
+\textbf{2007:} immediate drop\\
+at SGER introduction
+
+\vspace{4pt}
+\textbf{2020:} further decline\\
+at TIER introduction
+
+\vspace{4pt}
+\textbf{2022:} $-0.64$ log pts\\
+\quad\quad\; ($\approx -47\%$)
+}
+\end{tcolorbox}
+
+{\scriptsize\textcolor{MidGray}{Open circles (2000--2002): $<120$ AB obs}}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 10: Mechanism ───────────────────────────────────────────────────────
+\begin{frame}
+\badge{07b}\quad{\color{Navy}\large\textbf{Why Are Emissions $\approx$ Releases?}}
+\vspace{0.5em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.5em}
+
+\begin{columns}[T]
+\column{0.50\textwidth}
+\textbf{Canadian oil \& gas sector:}
+
+\vspace{0.4em}
+\begin{tcolorbox}[resultbox]
+\hi{99.2\%} of NPRI releases\\
+are to \hi{air}\\[4pt]
+{\small Mean air: 384,000 kg/facility-yr\\
+Mean non-air: \phantom{0}1,655 kg/facility-yr}\\[4pt]
+$\mathrm{cor}(lsumemission, lsumreleases) = 0.999$
+\end{tcolorbox}
+
+\column{0.46\textwidth}
+\textbf{US coal utilities:}\\[4pt]
+{\small Coal ash $\rightarrow$ land disposal\\
+Scrubber slurry $\rightarrow$ water\\
+So $lsumreleases \gg lsumemission$}
+
+\vspace{0.7em}
+\textbf{Implication:}\\[4pt]
+{\small In Canada, the mechanism is\\
+\hi{output curtailment}, not\\
+end-of-pipe or media substitution.\\[4pt]
+Fewer barrels/m$^3$ produced\\
+$\rightarrow$ less venting/flaring\\
+$\rightarrow$ lower toxic air emissions}
+\end{columns}
+\end{frame}
+
+%% ── SLIDE 11: Takeaway ────────────────────────────────────────────────────────
+\begin{frame}
+\badge{08}\quad{\color{Navy}\large\textbf{Takeaway}}
+\vspace{0.3em}\par
+{\color{Blue}\rule{\linewidth}{0.8pt}}\par
+\vspace{0.35em}
+
+\begin{itemize}\setlength\itemsep{0.5em}
+
+\item \textbf{Co-abatement exists under intensity pricing.}\\
+  {\small SGER still reduced toxic air emissions by \hi{17.5\%} — sufficient
+  to shift firm technology.}
+
+\item \textbf{Tighter prices deliver larger gains.}\\
+  {\small TIER's higher price added a further \hi{26.5\%}.
+  Price level matters, not just instrument type.}
+
+\item \textbf{But cap-and-trade delivers more.}\\
+  {\small Canada's \hi{$-39\%$} is half the US RGGI \hi{$-62\%$} benchmark.
+  A hard cap removes the output-expansion escape valve.}
+
+\end{itemize}
+
+\vspace{0.3em}
+\begin{tcolorbox}[resultbox]
+\small As Canada's carbon price escalates toward \$170/tCO$_2$e by 2030,
+further co-abatement can be expected — these health co-benefits should
+enter policy benefit-cost analyses.
+\end{tcolorbox}
+\end{frame}
+
+%% ── SLIDE 12: References ──────────────────────────────────────────────────────
+\begin{frame}
+\slidetitle{References}
+
+{\small
+\textbf{Pham, H. \& Roach, T.} (2024). Spillover benefits of carbon dioxide
+cap and trade: Evidence from the Toxics Release Inventory.
+\textit{Economic Inquiry}, 62(1).
+
+\vspace{0.5em}
+\textbf{Callaway, B. \& Sant'Anna, P.H.C.} (2021). Difference-in-differences
+with multiple time periods.
+\textit{Journal of Econometrics}, 225(2):200--230.
+
+\vspace{0.5em}
+\textbf{ECCC} (2024). National Pollutant Release Inventory — bulk data files.
+\url{open.canada.ca}
+
+\vspace{0.5em}
+\textbf{Statistics Canada} (2024). Tables 36-10-0222-01, 25-10-0029-01,
+18-10-0268-01, 18-10-0004-01.
+}
+
+\vspace{0.8em}
+{\scriptsize\textcolor{MidGray}{%
+Full replication code:\\
+\url{github.com/oluwafemiojo/Carbon-Pricing-and-Co-Abatement-of-Toxic-Emissions-Evidence-from-Alberta}}}
+\end{frame}
+
+\end{document}
