@@ -1,0 +1,24 @@
+# ── Raw data (too large for GitHub; download via scripts) ─────────────────────
+data/raw/npri/
+data/raw/pham_roach_pkg/191201-V2/Raw-data/Basic-data-files/tri_*.csv
+data/raw/pham_roach_pkg/191201-V2/Raw-data/Basic-data-files/TRI_basic_data_files_documentation_aug_2019_v2.pdf
+
+# ── R session artefacts ───────────────────────────────────────────────────────
+.RData
+.Rhistory
+.Rproj.user/
+*.Rproj
+
+# ── LaTeX auxiliary files ─────────────────────────────────────────────────────
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+
+# ── OS files ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
